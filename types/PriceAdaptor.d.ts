@@ -21,10 +21,12 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface PriceAdaptorInterface extends ethers.utils.Interface {
   functions: {
+    "decimals()": FunctionFragment;
     "getExpirationWith(uint256,uint256)": FunctionFragment;
     "getSizeWith(uint256,uint256)": FunctionFragment;
     "getValue(uint256,uint256)": FunctionFragment;
     "initialize(address,uint256)": FunctionFragment;
+    "matchValueToToken(uint8,uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "price()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -32,6 +34,7 @@ interface PriceAdaptorInterface extends ethers.utils.Interface {
     "transferOwnership(address)": FunctionFragment;
   };
 
+  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getExpirationWith",
     values: [BigNumberish, BigNumberish]
@@ -48,6 +51,10 @@ interface PriceAdaptorInterface extends ethers.utils.Interface {
     functionFragment: "initialize",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "matchValueToToken",
+    values: [BigNumberish, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(functionFragment: "price", values?: undefined): string;
   encodeFunctionData(
@@ -63,6 +70,7 @@ interface PriceAdaptorInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
 
+  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getExpirationWith",
     data: BytesLike
@@ -73,6 +81,10 @@ interface PriceAdaptorInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "getValue", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "matchValueToToken",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "price", data: BytesLike): Result;
   decodeFunctionResult(
@@ -148,6 +160,8 @@ export class PriceAdaptor extends BaseContract {
   interface: PriceAdaptorInterface;
 
   functions: {
+    decimals(overrides?: CallOverrides): Promise<[number]>;
+
     getExpirationWith(
       value: BigNumberish,
       size: BigNumberish,
@@ -160,17 +174,30 @@ export class PriceAdaptor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    getValue(
+    "getValue(uint256,uint256)"(
       size: BigNumberish,
       expiration: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    "getValue(uint8,uint256,uint256)"(
+      tokenDecimals: BigNumberish,
+      size: BigNumberish,
+      expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { value: BigNumber }>;
 
     initialize(
       owner: string,
       _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    matchValueToToken(
+      tokenDecimals: BigNumberish,
+      value: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -191,6 +218,8 @@ export class PriceAdaptor extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  decimals(overrides?: CallOverrides): Promise<number>;
+
   getExpirationWith(
     value: BigNumberish,
     size: BigNumberish,
@@ -203,7 +232,14 @@ export class PriceAdaptor extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  getValue(
+  "getValue(uint256,uint256)"(
+    size: BigNumberish,
+    expiration: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  "getValue(uint8,uint256,uint256)"(
+    tokenDecimals: BigNumberish,
     size: BigNumberish,
     expiration: BigNumberish,
     overrides?: CallOverrides
@@ -214,6 +250,12 @@ export class PriceAdaptor extends BaseContract {
     _price: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  matchValueToToken(
+    tokenDecimals: BigNumberish,
+    value: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -234,6 +276,8 @@ export class PriceAdaptor extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    decimals(overrides?: CallOverrides): Promise<number>;
+
     getExpirationWith(
       value: BigNumberish,
       size: BigNumberish,
@@ -246,7 +290,14 @@ export class PriceAdaptor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getValue(
+    "getValue(uint256,uint256)"(
+      size: BigNumberish,
+      expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "getValue(uint8,uint256,uint256)"(
+      tokenDecimals: BigNumberish,
       size: BigNumberish,
       expiration: BigNumberish,
       overrides?: CallOverrides
@@ -257,6 +308,12 @@ export class PriceAdaptor extends BaseContract {
       _price: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    matchValueToToken(
+      tokenDecimals: BigNumberish,
+      value: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -307,6 +364,8 @@ export class PriceAdaptor extends BaseContract {
   };
 
   estimateGas: {
+    decimals(overrides?: CallOverrides): Promise<BigNumber>;
+
     getExpirationWith(
       value: BigNumberish,
       size: BigNumberish,
@@ -319,7 +378,14 @@ export class PriceAdaptor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getValue(
+    "getValue(uint256,uint256)"(
+      size: BigNumberish,
+      expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "getValue(uint8,uint256,uint256)"(
+      tokenDecimals: BigNumberish,
       size: BigNumberish,
       expiration: BigNumberish,
       overrides?: CallOverrides
@@ -329,6 +395,12 @@ export class PriceAdaptor extends BaseContract {
       owner: string,
       _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    matchValueToToken(
+      tokenDecimals: BigNumberish,
+      value: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -351,6 +423,8 @@ export class PriceAdaptor extends BaseContract {
   };
 
   populateTransaction: {
+    decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getExpirationWith(
       value: BigNumberish,
       size: BigNumberish,
@@ -363,7 +437,14 @@ export class PriceAdaptor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getValue(
+    "getValue(uint256,uint256)"(
+      size: BigNumberish,
+      expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "getValue(uint8,uint256,uint256)"(
+      tokenDecimals: BigNumberish,
       size: BigNumberish,
       expiration: BigNumberish,
       overrides?: CallOverrides
@@ -373,6 +454,12 @@ export class PriceAdaptor extends BaseContract {
       owner: string,
       _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    matchValueToToken(
+      tokenDecimals: BigNumberish,
+      value: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;

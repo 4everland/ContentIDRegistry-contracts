@@ -146,7 +146,7 @@ export class IERC20 extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    decimals(overrides?: CallOverrides): Promise<[BigNumber]>;
+    decimals(overrides?: CallOverrides): Promise<[number]>;
 
     totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -178,7 +178,7 @@ export class IERC20 extends BaseContract {
 
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  decimals(overrides?: CallOverrides): Promise<BigNumber>;
+  decimals(overrides?: CallOverrides): Promise<number>;
 
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -210,7 +210,7 @@ export class IERC20 extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    decimals(overrides?: CallOverrides): Promise<BigNumber>;
+    decimals(overrides?: CallOverrides): Promise<number>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 

@@ -128,9 +128,9 @@ var _abi = [
         name: "decimals",
         outputs: [
             {
-                internalType: "uint256",
+                internalType: "uint8",
                 name: "",
-                type: "uint256",
+                type: "uint8",
             },
         ],
         stateMutability: "view",

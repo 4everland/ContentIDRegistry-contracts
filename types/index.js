@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PriceAdaptor__factory = exports.MockToken__factory = exports.IPriceAdaptor__factory = exports.ContentIDRegistry__factory = exports.IERC20__factory = exports.IERC20Metadata__factory = exports.ERC20__factory = exports.TransparentUpgradeableProxy__factory = exports.ProxyAdmin__factory = exports.Proxy__factory = exports.ERC1967Upgrade__factory = exports.ERC1967Proxy__factory = exports.IBeacon__factory = exports.IERC1822Proxiable__factory = exports.Ownable__factory = exports.ContextUpgradeable__factory = exports.IERC20Upgradeable__factory = exports.Initializable__factory = exports.OwnableUpgradeable__factory = void 0;
+exports.PriceAdaptor__factory = exports.PayTokens__factory = exports.MockToken__factory = exports.IPriceAdaptor__factory = exports.ContentIDRegistry__factory = exports.IERC20__factory = exports.IERC20Metadata__factory = exports.ERC20__factory = exports.TransparentUpgradeableProxy__factory = exports.ProxyAdmin__factory = exports.Proxy__factory = exports.ERC1967Upgrade__factory = exports.ERC1967Proxy__factory = exports.IBeacon__factory = exports.IERC1822Proxiable__factory = exports.Ownable__factory = exports.ContextUpgradeable__factory = exports.IERC20Upgradeable__factory = exports.Initializable__factory = exports.OwnableUpgradeable__factory = void 0;
 var OwnableUpgradeable__factory_1 = require("./factories/OwnableUpgradeable__factory");
 Object.defineProperty(exports, "OwnableUpgradeable__factory", { enumerable: true, get: function () { return OwnableUpgradeable__factory_1.OwnableUpgradeable__factory; } });
 var Initializable__factory_1 = require("./factories/Initializable__factory");
@@ -37,5 +37,7 @@ var IPriceAdaptor__factory_1 = require("./factories/IPriceAdaptor__factory");
 Object.defineProperty(exports, "IPriceAdaptor__factory", { enumerable: true, get: function () { return IPriceAdaptor__factory_1.IPriceAdaptor__factory; } });
 var MockToken__factory_1 = require("./factories/MockToken__factory");
 Object.defineProperty(exports, "MockToken__factory", { enumerable: true, get: function () { return MockToken__factory_1.MockToken__factory; } });
+var PayTokens__factory_1 = require("./factories/PayTokens__factory");
+Object.defineProperty(exports, "PayTokens__factory", { enumerable: true, get: function () { return PayTokens__factory_1.PayTokens__factory; } });
 var PriceAdaptor__factory_1 = require("./factories/PriceAdaptor__factory");
 Object.defineProperty(exports, "PriceAdaptor__factory", { enumerable: true, get: function () { return PriceAdaptor__factory_1.PriceAdaptor__factory; } });

@@ -32,4 +32,9 @@ interface IPriceAdaptor {
 		uint256 value,
 		uint256 size
 	) external view returns (uint256);
+
+	function getValue(uint8 tokenDecimals, uint256 size, uint256 expiration) external view returns(uint256 value);
+
+	function matchValueToToken(uint8 tokenDecimals, uint256 value) external pure returns(uint256);
+
 }

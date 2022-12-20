@@ -19,6 +19,7 @@ export type { IERC20 } from "./IERC20";
 export type { ContentIDRegistry } from "./ContentIDRegistry";
 export type { IPriceAdaptor } from "./IPriceAdaptor";
 export type { MockToken } from "./MockToken";
+export type { PayTokens } from "./PayTokens";
 export type { PriceAdaptor } from "./PriceAdaptor";
 
 export { OwnableUpgradeable__factory } from "./factories/OwnableUpgradeable__factory";
@@ -39,4 +40,5 @@ export { IERC20__factory } from "./factories/IERC20__factory";
 export { ContentIDRegistry__factory } from "./factories/ContentIDRegistry__factory";
 export { IPriceAdaptor__factory } from "./factories/IPriceAdaptor__factory";
 export { MockToken__factory } from "./factories/MockToken__factory";
+export { PayTokens__factory } from "./factories/PayTokens__factory";
 export { PriceAdaptor__factory } from "./factories/PriceAdaptor__factory";

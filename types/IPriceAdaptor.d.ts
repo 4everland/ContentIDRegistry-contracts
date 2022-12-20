@@ -23,6 +23,7 @@ interface IPriceAdaptorInterface extends ethers.utils.Interface {
     "getExpirationWith(uint256,uint256)": FunctionFragment;
     "getSizeWith(uint256,uint256)": FunctionFragment;
     "getValue(uint256,uint256)": FunctionFragment;
+    "matchValueToToken(uint8,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -37,6 +38,10 @@ interface IPriceAdaptorInterface extends ethers.utils.Interface {
     functionFragment: "getValue",
     values: [BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "matchValueToToken",
+    values: [BigNumberish, BigNumberish]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "getExpirationWith",
@@ -47,6 +52,10 @@ interface IPriceAdaptorInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getValue", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "matchValueToToken",
+    data: BytesLike
+  ): Result;
 
   events: {
     "PriceUpdated(uint256)": EventFragment;
@@ -113,9 +122,22 @@ export class IPriceAdaptor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    getValue(
+    "getValue(uint256,uint256)"(
       size: BigNumberish,
       expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    "getValue(uint8,uint256,uint256)"(
+      tokenDecimals: BigNumberish,
+      size: BigNumberish,
+      expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { value: BigNumber }>;
+
+    matchValueToToken(
+      tokenDecimals: BigNumberish,
+      value: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
   };
@@ -132,9 +154,22 @@ export class IPriceAdaptor extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  getValue(
+  "getValue(uint256,uint256)"(
     size: BigNumberish,
     expiration: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  "getValue(uint8,uint256,uint256)"(
+    tokenDecimals: BigNumberish,
+    size: BigNumberish,
+    expiration: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  matchValueToToken(
+    tokenDecimals: BigNumberish,
+    value: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -151,9 +186,22 @@ export class IPriceAdaptor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getValue(
+    "getValue(uint256,uint256)"(
       size: BigNumberish,
       expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "getValue(uint8,uint256,uint256)"(
+      tokenDecimals: BigNumberish,
+      size: BigNumberish,
+      expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    matchValueToToken(
+      tokenDecimals: BigNumberish,
+      value: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
@@ -181,9 +229,22 @@ export class IPriceAdaptor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getValue(
+    "getValue(uint256,uint256)"(
       size: BigNumberish,
       expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "getValue(uint8,uint256,uint256)"(
+      tokenDecimals: BigNumberish,
+      size: BigNumberish,
+      expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    matchValueToToken(
+      tokenDecimals: BigNumberish,
+      value: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
@@ -201,9 +262,22 @@ export class IPriceAdaptor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getValue(
+    "getValue(uint256,uint256)"(
       size: BigNumberish,
       expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "getValue(uint8,uint256,uint256)"(
+      tokenDecimals: BigNumberish,
+      size: BigNumberish,
+      expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    matchValueToToken(
+      tokenDecimals: BigNumberish,
+      value: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

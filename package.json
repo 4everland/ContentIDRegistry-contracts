@@ -1,6 +1,6 @@
 {
-	"name": "@4everland/ContentIDRegistry-contracts",
-	"version": "0.2.6",
+	"name": "@4everland/content-id-registry-contracts",
+	"version": "0.4.4",
 	"description": "ContentIDRegistry contracts",
 	"main": "./types/index.js",
 	"types": "./types/index.ts",
@@ -59,7 +59,7 @@
 		"coverage": "cross-env HARDHAT_DEPLOY_FIXTURE=true hardhat coverage",
 		"gas": "cross-env REPORT_GAS=true hardhat test",
 		"doc": "solidity-docgen --solc-module solc-0.8.9 -t hbs",
-		"dev": "hardhat node",
+		"dev": "hardhat node --no-deploy",
 		"test": "hardhat test",
 		"mumbai:deploy": "hardhat --network mumbai deploy",
 		"dev:deploy": "hardhat --network localhost deploy",

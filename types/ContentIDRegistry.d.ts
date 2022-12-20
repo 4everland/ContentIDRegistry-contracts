@@ -21,30 +21,30 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface ContentIDRegistryInterface extends ethers.utils.Interface {
   functions: {
+    "addToken(address)": FunctionFragment;
     "exists(address,string)": FunctionFragment;
     "expiredAt(address,string)": FunctionFragment;
     "getExpiration(address,string)": FunctionFragment;
     "getSize(address,string)": FunctionFragment;
-    "getUpdateAt(address,string)": FunctionFragment;
-    "initialize(address,address,uint256)": FunctionFragment;
+    "getValue(address,uint256,uint256)": FunctionFragment;
+    "initialize(address,address,address)": FunctionFragment;
     "insert(address,string,uint256,uint256)": FunctionFragment;
     "insertMult(address,string[],uint256[],uint256[])": FunctionFragment;
     "isExpired(address,string)": FunctionFragment;
-    "matchValueToDecimals(address,uint256)": FunctionFragment;
     "metas(address,string)": FunctionFragment;
+    "owner()": FunctionFragment;
     "priceAdaptor()": FunctionFragment;
     "remove(string)": FunctionFragment;
     "removeMult(string[])": FunctionFragment;
-    "tokenDecimals(address)": FunctionFragment;
+    "removeToken(address)": FunctionFragment;
+    "renew(address,string,uint256)": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
     "tokenExists(address)": FunctionFragment;
-    "tokenLength()": FunctionFragment;
-    "tokens(uint256)": FunctionFragment;
-    "updateExpiration(address,string,uint256)": FunctionFragment;
-    "updateExpirationMult(address,string[],uint256[])": FunctionFragment;
-    "updateSize(address,string,uint256)": FunctionFragment;
-    "updateSizeMult(address,string[],uint256[])": FunctionFragment;
+    "tokens(address)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
   };
 
+  encodeFunctionData(functionFragment: "addToken", values: [string]): string;
   encodeFunctionData(
     functionFragment: "exists",
     values: [string, string]
@@ -62,12 +62,12 @@ interface ContentIDRegistryInterface extends ethers.utils.Interface {
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "getUpdateAt",
-    values: [string, string]
+    functionFragment: "getValue",
+    values: [string, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [string, string, BigNumberish]
+    values: [string, string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "insert",
@@ -82,13 +82,10 @@ interface ContentIDRegistryInterface extends ethers.utils.Interface {
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "matchValueToDecimals",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "metas",
     values: [string, string]
   ): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "priceAdaptor",
     values?: undefined
@@ -98,36 +95,23 @@ interface ContentIDRegistryInterface extends ethers.utils.Interface {
     functionFragment: "removeMult",
     values: [string[]]
   ): string;
+  encodeFunctionData(functionFragment: "removeToken", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "tokenDecimals",
-    values: [string]
+    functionFragment: "renew",
+    values: [string, string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "tokenExists", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "tokenLength",
+    functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "tokenExists", values: [string]): string;
+  encodeFunctionData(functionFragment: "tokens", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "tokens",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updateExpiration",
-    values: [string, string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updateExpirationMult",
-    values: [string, string[], BigNumberish[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updateSize",
-    values: [string, string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updateSizeMult",
-    values: [string, string[], BigNumberish[]]
+    functionFragment: "transferOwnership",
+    values: [string]
   ): string;
 
+  decodeFunctionResult(functionFragment: "addToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "exists", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "expiredAt", data: BytesLike): Result;
   decodeFunctionResult(
@@ -135,19 +119,13 @@ interface ContentIDRegistryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getSize", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getUpdateAt",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "getValue", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "insert", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "insertMult", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "isExpired", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "matchValueToDecimals",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "metas", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "priceAdaptor",
     data: BytesLike
@@ -155,55 +133,63 @@ interface ContentIDRegistryInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "remove", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "removeMult", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "tokenDecimals",
+    functionFragment: "removeToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "renew", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "tokenExists",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "tokenLength",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "tokens", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "updateExpiration",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "updateExpirationMult",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "updateSize", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "updateSizeMult",
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
 
   events: {
+    "AddToken(address,uint8)": EventFragment;
     "Initialized(uint8)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
     "Remove(address,string)": EventFragment;
+    "RemoveToken(address)": EventFragment;
     "Upset(address,string,uint256,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "AddToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Remove"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RemoveToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Upset"): EventFragment;
 }
 
+export type AddTokenEvent = TypedEvent<
+  [string, number] & { token: string; decimals: number }
+>;
+
 export type InitializedEvent = TypedEvent<[number] & { version: number }>;
+
+export type OwnershipTransferredEvent = TypedEvent<
+  [string, string] & { previousOwner: string; newOwner: string }
+>;
 
 export type RemoveEvent = TypedEvent<
   [string, string] & { account: string; contentId: string }
 >;
+
+export type RemoveTokenEvent = TypedEvent<[string] & { token: string }>;
 
 export type UpsetEvent = TypedEvent<
   [string, string, BigNumber, BigNumber] & {
     account: string;
     contentId: string;
     size: BigNumber;
-    expiration: BigNumber;
+    expiredAt: BigNumber;
   }
 >;
 
@@ -251,6 +237,11 @@ export class ContentIDRegistry extends BaseContract {
   interface: ContentIDRegistryInterface;
 
   functions: {
+    addToken(
+      token: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     exists(
       account: string,
       contentId: string,
@@ -275,16 +266,17 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    getUpdateAt(
-      account: string,
-      contentId: string,
+    getValue(
+      token: string,
+      size: BigNumberish,
+      expiration: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    ): Promise<[BigNumber] & { value: BigNumber }>;
 
     initialize(
+      admin: string,
       _priceAdaptor: string,
       token: string,
-      decimals: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -310,12 +302,6 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    matchValueToDecimals(
-      token: string,
-      value: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     metas(
       arg0: string,
       arg1: string,
@@ -324,9 +310,11 @@ export class ContentIDRegistry extends BaseContract {
       [BigNumber, BigNumber, BigNumber] & {
         size: BigNumber;
         expiration: BigNumber;
-        updateAt: BigNumber;
+        createAt: BigNumber;
       }
     >;
+
+    owner(overrides?: CallOverrides): Promise<[string]>;
 
     priceAdaptor(overrides?: CallOverrides): Promise<[string]>;
 
@@ -340,45 +328,36 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    tokenDecimals(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    removeToken(
+      token: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    renew(
+      token: string,
+      contentId: string,
+      expiration: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     tokenExists(token: string, overrides?: CallOverrides): Promise<[boolean]>;
 
-    tokenLength(overrides?: CallOverrides): Promise<[BigNumber]>;
+    tokens(arg0: string, overrides?: CallOverrides): Promise<[number]>;
 
-    tokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
-
-    updateExpiration(
-      token: string,
-      contentId: string,
-      extraExpiration: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    updateExpirationMult(
-      token: string,
-      contentIds: string[],
-      extraExpirations: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    updateSize(
-      token: string,
-      contentId: string,
-      extraSize: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    updateSizeMult(
-      token: string,
-      contentIds: string[],
-      extraSizes: BigNumberish[],
+    transferOwnership(
+      newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
+
+  addToken(
+    token: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   exists(
     account: string,
@@ -404,16 +383,17 @@ export class ContentIDRegistry extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  getUpdateAt(
-    account: string,
-    contentId: string,
+  getValue(
+    token: string,
+    size: BigNumberish,
+    expiration: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   initialize(
+    admin: string,
     _priceAdaptor: string,
     token: string,
-    decimals: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -439,12 +419,6 @@ export class ContentIDRegistry extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  matchValueToDecimals(
-    token: string,
-    value: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   metas(
     arg0: string,
     arg1: string,
@@ -453,9 +427,11 @@ export class ContentIDRegistry extends BaseContract {
     [BigNumber, BigNumber, BigNumber] & {
       size: BigNumber;
       expiration: BigNumber;
-      updateAt: BigNumber;
+      createAt: BigNumber;
     }
   >;
+
+  owner(overrides?: CallOverrides): Promise<string>;
 
   priceAdaptor(overrides?: CallOverrides): Promise<string>;
 
@@ -469,43 +445,34 @@ export class ContentIDRegistry extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  tokenDecimals(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+  removeToken(
+    token: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  renew(
+    token: string,
+    contentId: string,
+    expiration: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  renounceOwnership(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   tokenExists(token: string, overrides?: CallOverrides): Promise<boolean>;
 
-  tokenLength(overrides?: CallOverrides): Promise<BigNumber>;
+  tokens(arg0: string, overrides?: CallOverrides): Promise<number>;
 
-  tokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  updateExpiration(
-    token: string,
-    contentId: string,
-    extraExpiration: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  updateExpirationMult(
-    token: string,
-    contentIds: string[],
-    extraExpirations: BigNumberish[],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  updateSize(
-    token: string,
-    contentId: string,
-    extraSize: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  updateSizeMult(
-    token: string,
-    contentIds: string[],
-    extraSizes: BigNumberish[],
+  transferOwnership(
+    newOwner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    addToken(token: string, overrides?: CallOverrides): Promise<void>;
+
     exists(
       account: string,
       contentId: string,
@@ -530,16 +497,17 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getUpdateAt(
-      account: string,
-      contentId: string,
+    getValue(
+      token: string,
+      size: BigNumberish,
+      expiration: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     initialize(
+      admin: string,
       _priceAdaptor: string,
       token: string,
-      decimals: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -565,12 +533,6 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    matchValueToDecimals(
-      token: string,
-      value: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     metas(
       arg0: string,
       arg1: string,
@@ -579,9 +541,11 @@ export class ContentIDRegistry extends BaseContract {
       [BigNumber, BigNumber, BigNumber] & {
         size: BigNumber;
         expiration: BigNumber;
-        updateAt: BigNumber;
+        createAt: BigNumber;
       }
     >;
+
+    owner(overrides?: CallOverrides): Promise<string>;
 
     priceAdaptor(overrides?: CallOverrides): Promise<string>;
 
@@ -589,44 +553,38 @@ export class ContentIDRegistry extends BaseContract {
 
     removeMult(contentIds: string[], overrides?: CallOverrides): Promise<void>;
 
-    tokenDecimals(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+    removeToken(token: string, overrides?: CallOverrides): Promise<void>;
+
+    renew(
+      token: string,
+      contentId: string,
+      expiration: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     tokenExists(token: string, overrides?: CallOverrides): Promise<boolean>;
 
-    tokenLength(overrides?: CallOverrides): Promise<BigNumber>;
+    tokens(arg0: string, overrides?: CallOverrides): Promise<number>;
 
-    tokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    updateExpiration(
-      token: string,
-      contentId: string,
-      extraExpiration: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    updateExpirationMult(
-      token: string,
-      contentIds: string[],
-      extraExpirations: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    updateSize(
-      token: string,
-      contentId: string,
-      extraSize: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    updateSizeMult(
-      token: string,
-      contentIds: string[],
-      extraSizes: BigNumberish[],
+    transferOwnership(
+      newOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
   };
 
   filters: {
+    "AddToken(address,uint8)"(
+      token?: null,
+      decimals?: null
+    ): TypedEventFilter<[string, number], { token: string; decimals: number }>;
+
+    AddToken(
+      token?: null,
+      decimals?: null
+    ): TypedEventFilter<[string, number], { token: string; decimals: number }>;
+
     "Initialized(uint8)"(
       version?: null
     ): TypedEventFilter<[number], { version: number }>;
@@ -634,6 +592,22 @@ export class ContentIDRegistry extends BaseContract {
     Initialized(
       version?: null
     ): TypedEventFilter<[number], { version: number }>;
+
+    "OwnershipTransferred(address,address)"(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): TypedEventFilter<
+      [string, string],
+      { previousOwner: string; newOwner: string }
+    >;
+
+    OwnershipTransferred(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): TypedEventFilter<
+      [string, string],
+      { previousOwner: string; newOwner: string }
+    >;
 
     "Remove(address,string)"(
       account?: null,
@@ -651,18 +625,24 @@ export class ContentIDRegistry extends BaseContract {
       { account: string; contentId: string }
     >;
 
+    "RemoveToken(address)"(
+      token?: null
+    ): TypedEventFilter<[string], { token: string }>;
+
+    RemoveToken(token?: null): TypedEventFilter<[string], { token: string }>;
+
     "Upset(address,string,uint256,uint256)"(
       account?: null,
       contentId?: null,
       size?: null,
-      expiration?: null
+      expiredAt?: null
     ): TypedEventFilter<
       [string, string, BigNumber, BigNumber],
       {
         account: string;
         contentId: string;
         size: BigNumber;
-        expiration: BigNumber;
+        expiredAt: BigNumber;
       }
     >;
 
@@ -670,19 +650,24 @@ export class ContentIDRegistry extends BaseContract {
       account?: null,
       contentId?: null,
       size?: null,
-      expiration?: null
+      expiredAt?: null
     ): TypedEventFilter<
       [string, string, BigNumber, BigNumber],
       {
         account: string;
         contentId: string;
         size: BigNumber;
-        expiration: BigNumber;
+        expiredAt: BigNumber;
       }
     >;
   };
 
   estimateGas: {
+    addToken(
+      token: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     exists(
       account: string,
       contentId: string,
@@ -707,16 +692,17 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getUpdateAt(
-      account: string,
-      contentId: string,
+    getValue(
+      token: string,
+      size: BigNumberish,
+      expiration: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     initialize(
+      admin: string,
       _priceAdaptor: string,
       token: string,
-      decimals: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -742,17 +728,13 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    matchValueToDecimals(
-      token: string,
-      value: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     metas(
       arg0: string,
       arg1: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     priceAdaptor(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -766,44 +748,38 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    tokenDecimals(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+    removeToken(
+      token: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    renew(
+      token: string,
+      contentId: string,
+      expiration: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
     tokenExists(token: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    tokenLength(overrides?: CallOverrides): Promise<BigNumber>;
+    tokens(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    tokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    updateExpiration(
-      token: string,
-      contentId: string,
-      extraExpiration: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    updateExpirationMult(
-      token: string,
-      contentIds: string[],
-      extraExpirations: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    updateSize(
-      token: string,
-      contentId: string,
-      extraSize: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    updateSizeMult(
-      token: string,
-      contentIds: string[],
-      extraSizes: BigNumberish[],
+    transferOwnership(
+      newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    addToken(
+      token: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     exists(
       account: string,
       contentId: string,
@@ -828,16 +804,17 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getUpdateAt(
-      account: string,
-      contentId: string,
+    getValue(
+      token: string,
+      size: BigNumberish,
+      expiration: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     initialize(
+      admin: string,
       _priceAdaptor: string,
       token: string,
-      decimals: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -863,17 +840,13 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    matchValueToDecimals(
-      token: string,
-      value: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     metas(
       arg0: string,
       arg1: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     priceAdaptor(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -887,9 +860,20 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    tokenDecimals(
-      arg0: string,
-      overrides?: CallOverrides
+    removeToken(
+      token: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    renew(
+      token: string,
+      contentId: string,
+      expiration: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     tokenExists(
@@ -897,38 +881,13 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    tokenLength(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     tokens(
-      arg0: BigNumberish,
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    updateExpiration(
-      token: string,
-      contentId: string,
-      extraExpiration: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    updateExpirationMult(
-      token: string,
-      contentIds: string[],
-      extraExpirations: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    updateSize(
-      token: string,
-      contentId: string,
-      extraSize: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    updateSizeMult(
-      token: string,
-      contentIds: string[],
-      extraSizes: BigNumberish[],
+    transferOwnership(
+      newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

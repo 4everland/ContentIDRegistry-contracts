@@ -14,6 +14,8 @@ contract PriceAdaptor is IPriceAdaptor, OwnableUpgradeable {
 	/// @dev return current price
 	uint256 public price;
 
+	uint8 public immutable decimals = 36;
+
 	constructor() initializer {}
 
 	/// @dev proxy initialize function
@@ -42,6 +44,7 @@ contract PriceAdaptor is IPriceAdaptor, OwnableUpgradeable {
 		uint256 size,
 		uint256 expiration
 	) public view override returns (uint256) {
+		require(size > 0 || expiration > 0, 'PriceAdaptor: invalid params');
 		return price.mul(size).mul(expiration);
 	}
 
@@ -65,6 +68,19 @@ contract PriceAdaptor is IPriceAdaptor, OwnableUpgradeable {
 		uint256 size
 	) public view override returns (uint256) {
 		return value.div(size).div(price);
+	}
+
+	function getValue(uint8 tokenDecimals, uint256 size, uint256 expiration) public view override returns(uint256 value) {
+		value = getValue(size, expiration);
+		value = matchValueToToken(tokenDecimals, value);
+	}
+
+	function matchValueToToken(uint8 tokenDecimals, uint256 value) public pure override returns(uint256) {
+		require(tokenDecimals > 0, 'PriceAdaptor: invalid token decimals');
+		if (tokenDecimals >= decimals) {
+			return value.mul(10 ** (tokenDecimals - decimals));
+		}
+		return value.div(10 ** (decimals - tokenDecimals));
 	}
 
 }
