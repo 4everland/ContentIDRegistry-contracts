@@ -61,6 +61,21 @@ const receipt = await tx.wait()
 console.log('receipt', receipt)
 ```
 
+**_expand cid size_**
+
+```
+const token = ${token address}
+const signer = ${eth signer}
+const cid = ${cid}
+const size = ${file size}
+const contentIDRegistry = ContentIDRegistry__factory.connect(${ContentIDRegistry_contract}, signer)
+const tx = await contentIDRegistry.expand(token, cid, size)
+console.log('tx', tx)
+const receipt = await tx.wait()
+console.log('receipt', receipt)
+```
+
+
 ## Contract Addresses
 
 The testnet runs on Mumbai currently. The addresses for both of these can be found in `./deployments`.
