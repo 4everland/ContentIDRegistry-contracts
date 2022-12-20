@@ -64,7 +64,7 @@ contract ContentIDRegistry is PayTokens {
 	/// @param token ERC20 token
 	/// @param contentId ipfs contentId
 	/// @param size ipfs contentId size
-    /// @param expiration of ipfs contentId expiration
+    /// @param expiration of ipfs contentId
 	function insert(
 		IERC20 token,
 		string memory contentId,
@@ -98,7 +98,7 @@ contract ContentIDRegistry is PayTokens {
 	/// @dev renew ipfs contentId
 	/// @param token ERC20 token
 	/// @param contentId ipfs contentId
-    /// @param expiration of ipfs contentId expiration
+    /// @param expiration of ipfs contentId
 	function renew(
 		IERC20 token,
 		string memory contentId,
@@ -116,13 +116,41 @@ contract ContentIDRegistry is PayTokens {
 	) internal {
 		require(tokenExists(token), 'ContentIDRegistry: nonexistent token');
 		require(exists(account, contentId), 'ContentIDRegistry: nonexistent contentId');
-		require(!isExpired(account, contentId), 'ContentIDRegistry: ');
-		require(expiration > 0, 'ContentIDRegistry: invalid params');
+		require(!isExpired(account, contentId), 'ContentIDRegistry: contentId expired');
+		require(expiration > 0, 'ContentIDRegistry: invalid content expiration');
 		uint256 size = getSize(account, contentId);
 		uint256 value = getValue(token, size, expiration);
 		token.transferFrom(from, address(this), value);
 		metas[account][contentId].expiration = expiration.add(getExpiration(account, contentId));
 		emit Upset(account, contentId, size, expiredAt(account, contentId));
+	}
+
+	/// @dev renew ipfs contentId
+	/// @param token ERC20 token
+	/// @param contentId ipfs contentId
+    /// @param size of ipfs contentId
+	function expand(
+		IERC20 token,
+		string memory contentId,
+        uint256 size
+	) external {
+		_expand(token, msg.sender, msg.sender, contentId, size);
+	}
+
+	function _expand(
+		IERC20 token,
+		address from,
+		address account,
+		string memory contentId,
+        uint256 size
+	) internal {
+		require(tokenExists(token), 'ContentIDRegistry: nonexistent token');
+		require(size > 0, 'ContentIDRegistry: invalid content size');
+		uint256 exp = availableExpiration(account, contentId);
+		uint256 value = getValue(token, size, exp);
+		token.transferFrom(from, address(this), value);
+		metas[account][contentId].size = metas[account][contentId].size.add(size);
+		emit Upset(account, contentId, metas[account][contentId].size, expiredAt(account, contentId));
 	}
 
 	function getSize(address account, string memory contentId) public view returns(uint256) {
@@ -140,6 +168,12 @@ contract ContentIDRegistry is PayTokens {
 	function expiredAt(address account, string memory contentId) public view returns(uint256) {
 		require(exists(account, contentId), 'ContentIDRegistry: nonexistent contentId');
 		return metas[account][contentId].expiration.add(metas[account][contentId].createAt);
+	}
+
+	function availableExpiration(address account, string memory contentId) public view returns(uint256) {
+		require(exists(account, contentId), 'ContentIDRegistry: nonexistent contentId');
+		require(!isExpired(account, contentId), 'ContentIDRegistry: contentId expired');
+		return expiredAt(account, contentId).sub(block.timestamp);
 	}
 
 	function isExpired(address account, string memory contentId) public view returns(bool) {

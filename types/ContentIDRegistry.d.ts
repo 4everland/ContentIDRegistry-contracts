@@ -22,7 +22,9 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 interface ContentIDRegistryInterface extends ethers.utils.Interface {
   functions: {
     "addToken(address)": FunctionFragment;
+    "availableExpiration(address,string)": FunctionFragment;
     "exists(address,string)": FunctionFragment;
+    "expand(address,string,uint256)": FunctionFragment;
     "expiredAt(address,string)": FunctionFragment;
     "getExpiration(address,string)": FunctionFragment;
     "getSize(address,string)": FunctionFragment;
@@ -46,8 +48,16 @@ interface ContentIDRegistryInterface extends ethers.utils.Interface {
 
   encodeFunctionData(functionFragment: "addToken", values: [string]): string;
   encodeFunctionData(
+    functionFragment: "availableExpiration",
+    values: [string, string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "exists",
     values: [string, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "expand",
+    values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "expiredAt",
@@ -112,7 +122,12 @@ interface ContentIDRegistryInterface extends ethers.utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "addToken", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "availableExpiration",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "exists", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "expand", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "expiredAt", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getExpiration",
@@ -242,11 +257,24 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    availableExpiration(
+      account: string,
+      contentId: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     exists(
       account: string,
       contentId: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    expand(
+      token: string,
+      contentId: string,
+      size: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     expiredAt(
       account: string,
@@ -359,11 +387,24 @@ export class ContentIDRegistry extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  availableExpiration(
+    account: string,
+    contentId: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   exists(
     account: string,
     contentId: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  expand(
+    token: string,
+    contentId: string,
+    size: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   expiredAt(
     account: string,
@@ -473,11 +514,24 @@ export class ContentIDRegistry extends BaseContract {
   callStatic: {
     addToken(token: string, overrides?: CallOverrides): Promise<void>;
 
+    availableExpiration(
+      account: string,
+      contentId: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     exists(
       account: string,
       contentId: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    expand(
+      token: string,
+      contentId: string,
+      size: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     expiredAt(
       account: string,
@@ -668,10 +722,23 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    availableExpiration(
+      account: string,
+      contentId: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     exists(
       account: string,
       contentId: string,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    expand(
+      token: string,
+      contentId: string,
+      size: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     expiredAt(
@@ -780,10 +847,23 @@ export class ContentIDRegistry extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    availableExpiration(
+      account: string,
+      contentId: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     exists(
       account: string,
       contentId: string,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    expand(
+      token: string,
+      contentId: string,
+      size: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     expiredAt(
