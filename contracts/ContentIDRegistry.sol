@@ -20,7 +20,7 @@ contract ContentIDRegistry is PayTokens {
 	IPriceAdaptor public priceAdaptor;
 
 	/// @dev ipfs contentId contentId meta
-    mapping(address => mapping(string => ContentMeta)) public metas;
+	mapping(address => mapping(string => ContentMeta)) public metas;
 
 	/// @dev emit when ipfs contentId inserted or updated
 	/// @param account user account
