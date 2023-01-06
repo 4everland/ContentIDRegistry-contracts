@@ -23,6 +23,7 @@ npm install @4everland/content-id-registry-contracts
 **_calculate file or directory value_**
 
 ```
+import { ContentIDRegistry__factory } from '@4everland/content-id-registry-contracts'
 const token = ${token address}
 const signer = ${eth signer}
 const fileSize = ${file size}
@@ -35,6 +36,7 @@ console.log('value', value)
 **_insert cid_**
 
 ```
+import { ContentIDRegistry__factory } from '@4everland/content-id-registry-contracts'
 const token = ${token address}
 const signer = ${eth signer}
 const cid = ${cid}
@@ -50,6 +52,7 @@ console.log('receipt', receipt)
 **_renew cid_**
 
 ```
+import { ContentIDRegistry__factory } from '@4everland/content-id-registry-contracts'
 const token = ${token address}
 const signer = ${eth signer}
 const cid = ${cid}
@@ -64,6 +67,7 @@ console.log('receipt', receipt)
 **_expand cid size_**
 
 ```
+import { ContentIDRegistry__factory } from '@4everland/content-id-registry-contracts'
 const token = ${token address}
 const signer = ${eth signer}
 const cid = ${cid}
