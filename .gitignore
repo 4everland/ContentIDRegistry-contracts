@@ -7,7 +7,7 @@ deploy/
 hbs/
 
 coverage*
-tasks/
+# tasks/
 # hardhat.config.ts
 scripts/
 test/
