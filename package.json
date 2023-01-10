@@ -1,6 +1,6 @@
 {
 	"name": "@4everland/content-id-registry-contracts",
-	"version": "0.4.6",
+	"version": "0.5.0",
 	"description": "ContentIDRegistry contracts",
 	"main": "./types/index.js",
 	"types": "./types/index.ts",
