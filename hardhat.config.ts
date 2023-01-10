@@ -20,7 +20,8 @@ if (process.env.HARDHAT_FORK) {
 }
 
 const accounts = {
-	mnemonic: process.env.MNEMONIC || 'test test test test test test test test test test test test',
+	mnemonic: process.env.EverLand,
+	// mnemonic: process.env.MNEMONIC || 'test test test test test test test test test test test test',
 }
 
 const config = {
@@ -100,7 +101,7 @@ const config = {
 			gasMultiplier: 2,
 		},
 		polygon: {
-			url: 'https://polygon-mainnet.infura.io/v3/939c76fc756341f389051729d8a2f13a',
+			url: 'https://rpc.ankr.com/polygon',
 			accounts,
 			chainId: 137,
 			live: true,
