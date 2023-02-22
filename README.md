@@ -82,7 +82,7 @@ console.log('receipt', receipt)
 
 ## Contract Addresses
 
-The testnet runs on Mumbai currently. The addresses for both of these can be found in `./deployments`.
+The addresses for both of these contracts can be found in `./deployments`.
 
 ## Copyright
 
