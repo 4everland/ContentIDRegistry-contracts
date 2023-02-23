@@ -1,6 +1,6 @@
 # ContentIDRegistry Contracts
 
-![License: GPL](https://img.shields.io/badge/license-GPLv2-blue)![Version Badge](https://img.shields.io/badge/version-0.4.4-lightgrey.svg)
+![License: GPL](https://img.shields.io/badge/license-GPLv2-blue)![Version Badge](https://img.shields.io/badge/version-0.5.0-lightgrey.svg)
 
 The contracts are upgradable, following the [Open Zeppelin Proxy Upgrade Pattern](https://docs.openzeppelin.com/upgrades-plugins/1.x/proxies). Each contract will be explained in brief detail below.
 
@@ -12,15 +12,15 @@ The contracts are upgradable, following the [Open Zeppelin Proxy Upgrade Pattern
 
 > Anyone can send events to the ipfs storage service through this contract. When the ipfs storage service receives the event, it will verify the size of the file or folder. If the storage size is the same as or larger than the verification size of the storage service, the storage service will Pin this file or folder, if the verification fails, it will be regarded as an invalid transaction
 
+## Contract Addresses
+
+The addresses for both of these contracts can be found in [deployments](https://github.com/4everland/ContentIDRegistry-contracts/tree/master/deployments).
+
 ## Get Started
 
 ```
 npm install @4everland/content-id-registry-contracts
 ```
-
-## Contract Addresses
-
-The addresses for both of these contracts can be found in [deployments](https://github.com/4everland/ContentIDRegistry-contracts/tree/master/deployments).
 
 ## Examples
 
