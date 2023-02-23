@@ -18,6 +18,10 @@ The contracts are upgradable, following the [Open Zeppelin Proxy Upgrade Pattern
 npm install @4everland/content-id-registry-contracts
 ```
 
+## Contract Addresses
+
+The addresses for both of these contracts can be found in [deployments](https://github.com/4everland/ContentIDRegistry-contracts/tree/master/deployments).
+
 ## Examples
 
 **_calculate file or directory value_**
@@ -78,11 +82,6 @@ console.log('tx', tx)
 const receipt = await tx.wait()
 console.log('receipt', receipt)
 ```
-
-
-## Contract Addresses
-
-The addresses for both of these contracts can be found in `./deployments`.
 
 ## Copyright
 
